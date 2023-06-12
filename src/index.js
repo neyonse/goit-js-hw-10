@@ -24,14 +24,16 @@ breedSelectorEl.addEventListener('change', e => {
 });
 
 function gatherSelectedCatData(fetchedCat) {
-  return (selectedCatData = {
+  const selectedCatData = {
     breed: fetchedCat[0].breeds[0].name,
     img: fetchedCat[0].url,
     imgW: fetchedCat[0].width,
     imgH: fetchedCat[0].height,
     descr: fetchedCat[0].breeds[0].description,
     temperament: fetchedCat[0].breeds[0].temperament,
-  });
+  };
+
+  return selectedCatData;
 }
 
 function updateCatInfo({ breed, img, imgW, imgH, descr, temperament }) {
