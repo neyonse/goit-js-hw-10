@@ -6,36 +6,35 @@ const catInfoEl = document.querySelector('.cat-info');
 const loaderEl = document.querySelector('.loader');
 const errorEl = document.querySelector('.error');
 
-// new SlimSelect({
-//   select: breedSelectorEl,
-// });
+const slimSelect = new SlimSelect({
+  select: breedSelectorEl,
+});
 
 hideBreedSelectorEl();
 hideErrorEl();
+initialiseCustomLoader();
 
 fetchBreeds()
-  .then(breeds => {
-    fillBreedSelectorEl(breeds);
-    hideLoaderEl();
-    showBreedSelectorEl();
-  })
+  .then(fillBreedSelectorEl)
   .catch(showErrorEl)
   .finally(hideLoaderEl);
 
-function fillBreedSelectorEl(breeds) {
-  breeds.forEach(breed => {
-    const optionEl = document.createElement('option');
-
-    optionEl.textContent = breed.name;
-    optionEl.value = breed.id;
-    breedSelectorEl.appendChild(optionEl);
-  });
-}
-
 breedSelectorEl.addEventListener('change', onBreedSelectChange);
 
-function onBreedSelectChange(e) {
-  const selectedOption = e.target.options[e.target.selectedIndex];
+function fillBreedSelectorEl(breeds) {
+  const data = breeds.map(breed => ({
+    text: breed.name,
+    value: breed.id,
+  }));
+
+  slimSelect.setData(data);
+
+  hideLoaderEl();
+  showBreedSelectorEl();
+}
+
+function onBreedSelectChange() {
+  const selectedOption = slimSelect.getSelected();
 
   showLoaderEl();
   hideErrorEl();
@@ -44,8 +43,8 @@ function onBreedSelectChange(e) {
     hideCatInfo();
   }
 
-  fetchCatByBreed(selectedOption.value)
-    .then(selectedCat => gatherSelectedCatData(selectedCat))
+  fetchCatByBreed(selectedOption)
+    .then(gatherSelectedCatData)
     .then(selectedCatData => {
       hideLoaderEl();
       updateCatInfo(selectedCatData);
@@ -86,6 +85,12 @@ function hideBreedSelectorEl() {
 
 function showBreedSelectorEl() {
   breedSelectorEl.classList.remove('hidden');
+}
+
+function initialiseCustomLoader() {
+  const loaderImg = document.createElement('span');
+  loaderImg.classList.add('loader-img');
+  loaderEl.appendChild(loaderImg);
 }
 
 function hideErrorEl() {

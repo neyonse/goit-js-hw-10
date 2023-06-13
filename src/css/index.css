@@ -1,3 +1,4 @@
 @import '~node_modules/modern-normalize/modern-normalize.css';
 @import './common.css';
+@import './loader.css';
 @import './styles.css';

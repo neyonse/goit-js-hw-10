@@ -18,25 +18,12 @@ export function fetchCatByBreed(breedId) {
   return fetch(`${url}?breed_ids=${breedId}&api_key=${MY_API_KEY}`).then(
     response => {
       if (!response.ok) {
-        throw new Error('', response.status);
+        throw new Error(
+          'Здається котик, якого ви шукали, втік',
+          response.status
+        );
       }
       return response.json();
     }
   );
 }
-
-// fetch(url)
-//   .then(function (response) {
-//     return response.json(); //отримуємо response(відповідь) у форматі json від сервера, і кажемо, що нам потрібно перетворити її у джава об'єкт за допомогою методу json().
-//   })
-//   .then(function (data) {
-//     console.log(data); //тут ми вже маємо отримані дані у вигляді з яким можемо далі працювати та прописуємо, що із ними робити далі.
-//   })
-//   .catch(function (error) {
-//     console.log('Сталася помилка:', error);
-//   });
-
-// fetch(url)
-//   .then(response => response.json())
-//   .then(data => console.log(data))
-//   .catch(error => console.log(error));
