@@ -1,1 +1,1 @@
-Пошук котиків за породою
+Search cat by breed
